@@ -1,0 +1,37 @@
+version: '3.8'
+services:
+  dashboard:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: 'php artisan serve --host=0.0.0.0'
+    volumes:
+      - .:/app
+    ports:
+      - 8001:8000
+    depends_on:
+      - dashboard_db
+
+  dashboard_queue_service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: 'php artisan queue:work'
+    depends_on:
+      - dashboard_db
+
+  dashboard_db:
+    image: mariadb:10.5.9
+    environment:
+      MYSQL_DATABASE: '${DB_DATABASE}'
+      MYSQL_USER: '${DB_USERNAME}'
+      MYSQL_ROOT_PASSWORD: '${DB_PASSWORD}'
+    volumes:
+      - ./storage/dbdata:/var/lib/mysql
+    ports:
+      - 33061:3306
+
+networks:
+  default:
+    external:
+      name: admin-app_cool_network
