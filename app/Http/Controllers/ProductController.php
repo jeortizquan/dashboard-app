@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Jobs\ProductLiked;
 use App\Models\ProductUser;
+use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Symfony\Component\HttpFoundation\Response;

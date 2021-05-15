@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Models\Product;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -32,6 +33,8 @@ class ProductLiked implements ShouldQueue
      */
     public function handle()
     {
-
+        $product = Product::find($this->data['product_id']);
+        $product->likes++;
+        $product->save();
     }
 }
